@@ -10,11 +10,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println("Program Entrance\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("Program Entrance");
         JFrame jframe = new JFrame();
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setBounds(200, 200, 620, 300);
-        SplashScreen splishsplash = new SplashScreen();
+        new SplashScreen();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run(){
                 mainWindow winder = new mainWindow();

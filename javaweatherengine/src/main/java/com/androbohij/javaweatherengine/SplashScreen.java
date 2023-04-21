@@ -6,7 +6,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
-import java.util.TimerTask;
 
 public class SplashScreen extends JFrame {
 
