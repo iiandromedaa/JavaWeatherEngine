@@ -1,23 +1,24 @@
 package com.androbohij.javaweatherengine;
 
-import javax.swing.JFrame;
-
 /**
- * Hello world!
- *
+ * Hello cruel world!
  */
 public class App 
 {
     public static void main( String[] args )
     {
         System.out.println("Program Entrance");
-        JFrame jframe = new JFrame();
-        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jframe.setBounds(200, 200, 620, 300);
         new SplashScreen();
+        String lat = "44.986";
+        String lon = "-93.258";
+        Steve steve = new Steve();
+        // System.out.println(steve.getDates()[0]);
+        new Thread(() -> {
+            System.out.println(steve.getThirty(lat, lon, steve.getDates()[1], steve.getDates()[0]));
+        }).start();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run(){
-                mainWindow winder = new mainWindow();
+                MainWindow winder = new MainWindow();
                 System.out.println("Window Setup");
                 winder.createWindow();
             }
