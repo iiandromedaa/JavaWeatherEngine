@@ -10,7 +10,7 @@ public class Steve {
 	        .url("https://meteostat.p.rapidapi.com/point/daily?lat="+lat+"&lon="+lon+"&start="+startDate+"&end="+endDate)
 	        .get()
 	        .addHeader("content-type", "application/octet-stream")
-	        .addHeader("X-RapidAPI-Key", "key")
+	        .addHeader("X-RapidAPI-Key", Secrets.getMeteoKey())
 	        .addHeader("X-RapidAPI-Host", "meteostat.p.rapidapi.com")
 	        .build();
             Response response = client.newCall(request).execute();
