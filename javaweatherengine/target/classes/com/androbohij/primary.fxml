@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 
-<fx:root fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="720.0" style="-fx-background-color: #000;" type="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.androbohij.WindowHandler">
+<AnchorPane fx:id="container" maxHeight="900.0" maxWidth="1600.0" minHeight="144.0" minWidth="256.0" prefHeight="540.0" prefWidth="720.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.androbohij.WindowHandler">
    <children>
-      <AnchorPane fx:id="content" layoutX="73.0" layoutY="19.0" prefHeight="521.0" prefWidth="647.0" style="-fx-background-color: #fff;" />
-      <AnchorPane fx:id="sidebar" prefHeight="540.0" prefWidth="74.0" style="-fx-background-color: #004175;" styleClass="nav">
+      <AnchorPane fx:id="content" layoutY="1.0" maxHeight="900.0" maxWidth="1600.0" minHeight="144.0" minWidth="256.0" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #fff;">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></AnchorPane>
+      <AnchorPane fx:id="sidebar" maxHeight="9999.0" maxWidth="74.0" minHeight="144.0" minWidth="74.0" prefHeight="541.0" prefWidth="74.0" style="-fx-background-color: #004175;" styleClass="nav">
          <children>
             <VBox fx:id="vbox" alignment="TOP_CENTER" fillWidth="false" layoutX="4.0" layoutY="31.0" prefHeight="445.0" prefWidth="66.0" style="-fx-background-color: #ffffff00;">
                <children>
-                  <Button fx:id="home" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goHome" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="home">
+                  <Button fx:id="home" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goHome" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="home" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="settings" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goSettings" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="settings">
+                  <Button fx:id="settings" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goSettings" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="settings" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="about" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goAbout" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="about">
+                  <Button fx:id="about" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goAbout" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="about" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
             </VBox>
-            <Button fx:id="exit" layoutX="11.0" layoutY="476.0" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goExit" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="exit" />
+            <Button fx:id="exit" layoutX="11.0" layoutY="476.0" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goExit" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="exit" textFill="WHITE" />
          </children>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="0.0" radius="4.75" spread="0.39">
+               <color>
+                  <Color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" />
+               </color>
+            </DropShadow>
+         </effect>
       </AnchorPane>
-      <MenuBar fx:id="menu" prefHeight="21.0" prefWidth="720.0" style="-fx-background-color: #004175;" styleClass="nav">
+      <MenuBar fx:id="menu" prefHeight="21.0" prefWidth="720.0" style="-fx-background-color: #ddd;" styleClass="nav">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -55,4 +68,4 @@
         </menus>
       </MenuBar>
    </children>
-</fx:root>
+</AnchorPane>
