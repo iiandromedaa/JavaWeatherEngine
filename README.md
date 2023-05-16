@@ -1,2 +1,4 @@
 # JavaWeatherEngine
- an application that attempts to give weather forecasts based off of user location and various data points
+A JavaFX application that uses machine learning to attempt temperature prediction
+
+The neural network is an LSTM that takes in 30 days of input and was built using Keras in Python
