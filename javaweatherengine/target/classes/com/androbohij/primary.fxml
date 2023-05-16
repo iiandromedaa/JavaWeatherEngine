@@ -1,16 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.androbohij.PrimaryController">
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="720.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WindowHandler.java">
    <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
+      <AnchorPane fx:id="content" layoutX="73.0" layoutY="19.0" prefHeight="521.0" prefWidth="647.0" style="-fx-background-color: #fff;" />
+      <AnchorPane fx:id="sidebar" prefHeight="540.0" prefWidth="74.0" style="-fx-background-color: #004175;" styleClass="nav">
+         <children>
+            <VBox fx:id="vbox" alignment="TOP_CENTER" fillWidth="false" layoutX="4.0" layoutY="31.0" prefHeight="445.0" prefWidth="66.0" style="-fx-background-color: #ffffff00;">
+               <children>
+                  <Button fx:id="home" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goHome" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="home">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="settings" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goSettings" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="settings">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="about" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goAbout" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="about">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <Button fx:id="exit" layoutX="11.0" layoutY="476.0" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goExit" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="exit" />
+         </children>
+      </AnchorPane>
+      <MenuBar fx:id="menu" prefHeight="21.0" prefWidth="720.0" style="-fx-background-color: #004175;" styleClass="nav">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#goExit" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#goSettings" text="Settings" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#goAbout" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+</AnchorPane>
