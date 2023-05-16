@@ -1,8 +1,11 @@
-package com.androbohij.javaweatherengine;
+package com.androbohij;
 import okhttp3.*;
 import java.time.*;
 
 public class Steve {
+    Steve() {
+        
+    }
     public String getThirty(String lat, String lon, String startDate, String endDate){
         try {
             OkHttpClient client = new OkHttpClient();
@@ -30,4 +33,8 @@ public class Steve {
         LocalDate agoThr = today.minus( daysThr );
         return new String[] {today.toString(), agoThr.toString()};
     } 
+    
+    public int loadModel() {
+        return 0;
+    }
 }
