@@ -6,11 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,7 +42,7 @@ public class App extends Application {
                         closeSplashScreen(initStage);
                         showMainStage();
                     } catch (IOException e) {
-                        System.out.println(e);
+                        System.out.println("oh my god bruh " + e.toString());
                     }
                 });
             }
@@ -48,7 +51,11 @@ public class App extends Application {
     }
     public void showSplashScreen(Stage stage) throws IOException {
         stage.initStyle(StageStyle.UNDECORATED);
-        
+        stage.setAlwaysOnTop(true);
+        stage.setTitle("Java Weather Engine");
+        InputStream stream = new FileInputStream("/images/icon.png");
+        stage.getIcons().add(new Image(stream));
+        stream.close();
         final Rectangle2D bounds = Screen.getPrimary().getBounds();
         splash = new Scene(loadFXML("splash"), 600, 292);
         stage.setScene(splash);
@@ -63,7 +70,8 @@ public class App extends Application {
 
     public void showMainStage() throws IOException {
         Stage mainStage = new Stage(StageStyle.DECORATED);
-        mainStage.setTitle("JavaWeatherEngine");
+        mainStage.setTitle("Java Weather Engine");
+        mainStage.getIcons().add(new Image("/img/icon.png"));
         scene = new Scene(loadFXML("primary"), 720, 540);
         mainStage.setScene(scene);
         mainStage.show();
