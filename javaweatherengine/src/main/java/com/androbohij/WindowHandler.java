@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.application.Platform;
 
 public class WindowHandler {
 
@@ -43,7 +44,9 @@ public class WindowHandler {
 
     @FXML
     void goExit(ActionEvent event) {
-
+        System.out.println("Exit");
+        Platform.exit();
+        System.exit(0);
     }
 
     @FXML
