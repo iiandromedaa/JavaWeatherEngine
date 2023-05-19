@@ -41,8 +41,10 @@ public class App extends Application {
                     try {
                         closeSplashScreen(initStage);
                         showMainStage();
-                    } catch (IOException e) {
-                        System.out.println("oh my god bruh " + e.toString());
+                    } catch (Exception e) {
+                        System.out.println("look at this " + e.toString());
+                        System.out.println("i give up");
+                        System.exit(-1);
                     }
                 });
             }
@@ -71,7 +73,7 @@ public class App extends Application {
     public void showMainStage() throws IOException {
         Stage mainStage = new Stage(StageStyle.DECORATED);
         mainStage.setTitle("Java Weather Engine");
-        mainStage.getIcons().add(new Image("/img/icon.png"));
+        mainStage.getIcons().add(new Image("/images/icon.png"));
         scene = new Scene(loadFXML("primary"), 720, 540);
         mainStage.setScene(scene);
         mainStage.show();
