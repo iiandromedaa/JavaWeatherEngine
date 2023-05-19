@@ -1,0 +1,24 @@
+
+
+@font-face {
+   font-family: "Inter Medium";
+   src: url('../fonts/Inter-Medium.ttf');
+}
+
+
+.nav {
+   -fx-background-color: #BBBBBB;
+   -fx-border-color: #999999;
+   -fx-border-width: 0px 3px 0px 0px;
+}
+.sidetext {
+   -fx-font-family: "Inter Medium";
+   -fx-font-smoothing-type: LCD;
+   -fx-font-size: 13px;
+}
+
+.vertext {
+   -fx-font-family: "Inter";
+   -fx-text-fill: #666666;
+   -fx-font-smoothing-type: LCD;
+}

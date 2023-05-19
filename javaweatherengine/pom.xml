@@ -5,6 +5,7 @@
     <artifactId>javaweatherengine</artifactId>
     <version>0.1.1</version>
     <properties>
+        <!-- -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
@@ -31,6 +32,16 @@
             <artifactId>okhttp</artifactId>
             <version>4.11.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native</artifactId>
+            <version>1.0.0-beta7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-core</artifactId>
+            <version>1.0.0-beta7</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -52,7 +63,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.androbohij.App</mainClass>
+                            <mainClass>com.androbohij.GUIstarter</mainClass>
                         </configuration>
                     </execution>
                 </executions>

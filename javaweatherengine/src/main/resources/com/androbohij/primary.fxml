@@ -3,66 +3,97 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
 
-<AnchorPane fx:id="container" maxHeight="900.0" maxWidth="1600.0" minHeight="144.0" minWidth="256.0" prefHeight="540.0" prefWidth="720.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.androbohij.WindowHandler">
+<AnchorPane fx:id="container" maxHeight="900.0" maxWidth="1600.0" minHeight="144.0" minWidth="256.0" prefHeight="900.0" prefWidth="1280.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.androbohij.WindowHandler">
    <children>
-      <AnchorPane fx:id="content" layoutY="1.0" maxHeight="900.0" maxWidth="1600.0" minHeight="144.0" minWidth="256.0" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #fff;">
+      <AnchorPane fx:id="content" layoutY="1.0" maxHeight="900.0" maxWidth="1600.0" minHeight="144.0" minWidth="256.0" prefHeight="900.0" prefWidth="1280.0" style="-fx-background-color: #fff;">
          <rotationAxis>
             <Point3D />
          </rotationAxis></AnchorPane>
-      <AnchorPane fx:id="sidebar" maxHeight="9999.0" maxWidth="74.0" minHeight="144.0" minWidth="74.0" prefHeight="541.0" prefWidth="74.0" style="-fx-background-color: #004175;" styleClass="nav">
+      <AnchorPane fx:id="sidebar" maxHeight="9999.0" maxWidth="102.0" minHeight="144.0" minWidth="74.0" prefHeight="901.0" prefWidth="102.0" styleClass="nav" stylesheets="@style/styles.css">
          <children>
-            <VBox fx:id="vbox" alignment="TOP_CENTER" fillWidth="false" layoutX="4.0" layoutY="31.0" prefHeight="445.0" prefWidth="66.0" style="-fx-background-color: #ffffff00;">
+            <VBox fx:id="vbox" alignment="TOP_CENTER" fillWidth="false" layoutX="4.0" layoutY="30.0" prefHeight="644.0" prefWidth="92.0" style="-fx-background-color: #ffffff00;">
                <children>
-                  <Button fx:id="home" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goHome" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="home" textFill="WHITE">
+                  <Label fx:id="versionLabel" styleClass="vertext" text="VERSION">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets top="5.0" />
                      </VBox.margin>
-                  </Button>
-                  <Button fx:id="settings" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goSettings" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="settings" textFill="WHITE">
+                  </Label>
+                  <Button fx:id="home" maxHeight="54.0" maxWidth="200.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goHome" prefHeight="54.0" prefWidth="80.0" style="-fx-background-color: #ffffff00;" textFill="WHITE">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets top="25.0" />
                      </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/home.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button fx:id="about" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goAbout" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="about" textFill="WHITE">
+                  <Label onMouseReleased="#goHome" styleClass="sidetext" text="Home" textAlignment="CENTER" />
+                  <Button fx:id="settings" maxHeight="75.0" maxWidth="93.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goSettings" prefHeight="54.0" prefWidth="80.0" style="-fx-background-color: #ffffff00;" textFill="WHITE">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets top="50.0" />
                      </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
+                  <Label onMouseReleased="#goSettings" styleClass="sidetext" text="Settings" textAlignment="CENTER" />
+                  <Button fx:id="about" maxHeight="54.0" maxWidth="200.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goAbout" prefHeight="54.0" prefWidth="80.0" style="-fx-background-color: #ffffff00;" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/help.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label onMouseReleased="#goAbout" styleClass="sidetext" text="About" textAlignment="CENTER" />
                </children>
             </VBox>
-            <Button fx:id="exit" layoutX="11.0" layoutY="476.0" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goExit" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" text="exit" textFill="WHITE" />
+            <Button fx:id="exit" layoutX="23.0" layoutY="789.0" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" mnemonicParsing="false" onAction="#goExit" prefHeight="54.0" prefWidth="54.0" style="-fx-background-color: #ffffff00;" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/close.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Label layoutX="39.0" layoutY="843.0" onMouseReleased="#goExit" styleClass="sidetext" text="Exit" />
          </children>
-         <effect>
-            <DropShadow blurType="GAUSSIAN" height="0.0" radius="4.75" spread="0.39">
-               <color>
-                  <Color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" />
-               </color>
-            </DropShadow>
-         </effect>
       </AnchorPane>
-      <MenuBar fx:id="menu" prefHeight="21.0" prefWidth="720.0" style="-fx-background-color: #ddd;" styleClass="nav">
+      <MenuBar prefHeight="25.0" prefWidth="1280.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#goExit" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#goSettings" text="Settings" />
+              <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#goAbout" text="About" />
+              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
