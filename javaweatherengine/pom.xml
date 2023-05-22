@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.androbohij</groupId>
     <artifactId>javaweatherengine</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.1</version>
     <properties>
         <!-- -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,7 +50,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>19</release>
                 </configuration>
             </plugin>
             <plugin>

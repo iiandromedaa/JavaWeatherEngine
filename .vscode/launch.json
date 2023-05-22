@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "com.androbohij.App",
-            "projectName": "javaweatherengine"
-        },
-        {
-            "type": "java",
             "name": "GUIstarter",
             "request": "launch",
             "mainClass": "com.androbohij.GUIstarter",
@@ -24,12 +17,5 @@
             "request": "launch",
             "mainClass": "${file}"
         },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "com.androbohij/com.androbohij.App",
-            "projectName": "javaweatherengine"
-        }
     ]
 }

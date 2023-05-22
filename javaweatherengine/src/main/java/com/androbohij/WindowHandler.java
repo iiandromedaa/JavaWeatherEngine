@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.application.Platform;
 
@@ -18,12 +17,6 @@ public class WindowHandler {
     private Button about;
 
     @FXML
-    private AnchorPane container;
-
-    @FXML
-    private AnchorPane content;
-
-    @FXML
     private Button exit;
 
     @FXML
@@ -34,9 +27,6 @@ public class WindowHandler {
 
     @FXML
     private Button settings;
-
-    @FXML
-    private AnchorPane sidebar;
 
     @FXML
     private VBox vbox;

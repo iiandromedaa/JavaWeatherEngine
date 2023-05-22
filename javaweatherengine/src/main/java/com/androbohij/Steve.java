@@ -3,6 +3,7 @@ import okhttp3.*;
 import java.time.*;
 
 public class Steve {
+    boolean autoLoc;
     Steve() {
         
     }
