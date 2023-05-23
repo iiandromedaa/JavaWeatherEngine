@@ -70,6 +70,14 @@
    -fx-border-width: 2.5px;
 }
 
+.pCard {
+   -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #ff9500, #1e1e1e);
+   -fx-background-radius: 25px;
+   -fx-border-radius: 23px;
+   -fx-border-color: linear-gradient(from 50% 0% to 50% 100%, #ffffff, #1e1e1e);
+   -fx-border-width: 2.5px;
+}
+
 .yCard {
    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #bbbbbb, #1e1e1e);
    -fx-background-radius: 25px;
@@ -79,6 +87,6 @@
 }
 
 .dropdown {
-   -fx-background-color: #464646;
+   -fx-background-color: #1e1e1ec2;
    -fx-background-radius: 25px;
 }

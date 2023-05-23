@@ -2,6 +2,7 @@ package com.androbohij;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -11,15 +12,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ModuleLayer.Controller;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import com.sun.tools.javac.Main;
 
 /**
  * JavaFX App
@@ -31,8 +28,7 @@ public class App extends Application {
     private static final int SPLASH_WIDTH = 600;
     private static final int SPLASH_HEIGHT = 292;
     Timer splashTimer = new Timer();
-
-    public static final String VERSION = "0.1.1";
+    Timer jwelTimer = new Timer();
 
     @Override
     public void start(Stage initStage) throws IOException {  
@@ -51,13 +47,21 @@ public class App extends Application {
                         Font.loadFont(getClass().getResourceAsStream("/fonts/Inter-Medium.tff"), 20);
                     } catch (Exception e) {
                         System.out.println("look at this " + e.toString());
+                        e.printStackTrace();
                         System.out.println("i give up");
                         System.exit(-1);
                     }
                 });
             }
         };
+        TimerTask jwelTask = new TimerTask() {
+            public void run() {
+                JWEL jwel = new JWEL();
+            }
+        };
+        jwelTimer.schedule(jwelTask,2000l);
         splashTimer.schedule(task,5000l);
+        
     }
     public void showSplashScreen(Stage stage) throws IOException {
         stage.initStyle(StageStyle.UNDECORATED);
@@ -87,6 +91,14 @@ public class App extends Application {
         mainStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - 900 / 2);
         mainStage.setScene(scene);
         mainStage.show();
+        mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                System.out.println("Exit");
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -101,5 +113,4 @@ public class App extends Application {
     public static void launcher(String[] args) {
         launch();
     }
-
 }
