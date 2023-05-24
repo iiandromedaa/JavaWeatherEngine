@@ -8,6 +8,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -25,8 +26,10 @@ public class App extends Application {
 
     private static Scene scene;
     private static Scene splash;
-    private static final int SPLASH_WIDTH = 600;
-    private static final int SPLASH_HEIGHT = 292;
+    private static final int SPLASH_WIDTH = 700;
+    private static final int SPLASH_HEIGHT = 392;
+    public static boolean ONLINE = true;
+    public static JWEL jwel;
     Timer splashTimer = new Timer();
     Timer jwelTimer = new Timer();
 
@@ -56,7 +59,7 @@ public class App extends Application {
         };
         TimerTask jwelTask = new TimerTask() {
             public void run() {
-                JWEL jwel = new JWEL();
+                jwel = new JWEL();
             }
         };
         jwelTimer.schedule(jwelTask,2000l);
@@ -64,12 +67,13 @@ public class App extends Application {
         
     }
     public void showSplashScreen(Stage stage) throws IOException {
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.setAlwaysOnTop(true);
         stage.setTitle("Java Weather Engine");
         stage.getIcons().add(new Image(App.class.getResourceAsStream("images/icon.png")));
         final Rectangle2D bounds = Screen.getPrimary().getBounds();
-        splash = new Scene(loadFXML("splash"), 600, 292);
+        splash = new Scene(loadFXML("splash"), 700, 392);
+        splash.setFill(Color.TRANSPARENT);
         stage.setScene(splash);
         stage.setX(bounds.getMinX() + bounds.getWidth() / 2 - SPLASH_WIDTH / 2);
         stage.setY(bounds.getMinY() + bounds.getHeight() / 2 - SPLASH_HEIGHT / 2);
@@ -81,8 +85,8 @@ public class App extends Application {
     }
 
     public void showMainStage() throws IOException {
-        Stage mainStage = new Stage(StageStyle.DECORATED);
-        mainStage.setMinWidth(800); mainStage.setMinHeight(600);
+        Stage mainStage = new Stage(StageStyle.UNIFIED);
+        mainStage.setMinWidth(1024); mainStage.setMinHeight(768);
         mainStage.setTitle("Java Weather Engine");
         final Rectangle2D bounds = Screen.getPrimary().getBounds();
         scene = new Scene(loadFXML("primary"), 1280, 900);

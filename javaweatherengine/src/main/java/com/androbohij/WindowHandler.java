@@ -18,6 +18,12 @@ import javafx.application.Platform;
 
 public class WindowHandler {
 
+    private int display;
+    //0 = home
+    //1 = settings
+    //2 = about
+    //3 = offline
+    //4 = other
     @FXML
     private Label versionLabel;
 
@@ -44,6 +50,10 @@ public class WindowHandler {
 
     @FXML
     void goAbout(ActionEvent event) {
+        if (display == 2 || display == 3) {
+            return;
+        }
+        display = 2;
         borderpane.setCenter(null);
     }
 
@@ -56,6 +66,10 @@ public class WindowHandler {
 
     @FXML
     void goHome(ActionEvent event) {
+        if (display == 0 || display == 3) {
+            return;
+        }
+        display = 0;
         borderpane.setCenter(null);
         GridPane homePane;
         try {
@@ -68,21 +82,33 @@ public class WindowHandler {
         }
     }
 
+    void goOffline(ActionEvent event) {
+        display = 3;
+        borderpane.setCenter(null);
+    }
+
     @FXML
     void goSettings(ActionEvent event) {
+        if (display == 1 || display == 3) {
+            return;
+        }
+        display = 1;
         borderpane.setCenter(null);
     }
 
     public void initialize() {
+        display = 4;
         final Properties properties = new Properties();
         try {
             properties.load(App.class.getResourceAsStream("project.properties"));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-        // System.out.println(properties.getProperty("version"));
-        // System.out.println(properties.getProperty("artifactId"));
         versionLabel.setText("JWE v" + properties.getProperty("version"));
+        if (!App.ONLINE) {
+            display = 3;
+            goOffline(new ActionEvent());
+        }
         goHome(new ActionEvent());
     }
 }

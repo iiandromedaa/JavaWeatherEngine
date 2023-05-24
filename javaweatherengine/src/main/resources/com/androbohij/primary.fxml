@@ -25,7 +25,7 @@
           <RowConstraints maxHeight="87.0" minHeight="86.0" prefHeight="87.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <VBox fx:id="vbox" alignment="TOP_CENTER" minHeight="100.0" minWidth="100.0" prefHeight="100.0" prefWidth="100.0" styleClass="nav">
+            <VBox fx:id="vbox" alignment="TOP_CENTER" minHeight="100.0" minWidth="100.0" prefHeight="100.0" prefWidth="100.0" styleClass="nav" stylesheets="@style/themeMaterial.css">
                <children>
                   <Label fx:id="versionLabel" styleClass="vertext" text="VERSION">
                      <VBox.margin>
@@ -76,7 +76,7 @@
                      </font></Label>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" styleClass="nav" GridPane.rowIndex="1">
+            <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" styleClass="nav" stylesheets="@style/themeMaterial.css" GridPane.rowIndex="1">
                <children>
                   <Button fx:id="exit" layoutX="10.0" layoutY="77.0" mnemonicParsing="false" onAction="#goExit" styleClass="sidebutton">
                      <graphic>

@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<GridPane hgap="10.0" prefHeight="900.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.androbohij.HomeHandler">
+<GridPane hgap="10.0" prefHeight="900.0" prefWidth="1180.0" styleClass="backDrop" stylesheets="@style/themeMaterial.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.androbohij.HomeHandler">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="45.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.5" prefWidth="50.0" />
@@ -30,8 +30,8 @@
       <RowConstraints maxHeight="543.0" minHeight="10.0" prefHeight="384.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" />
-      <StackPane fx:id="day2stack" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
+      <VBox minHeight="150.0" prefHeight="200.0" prefWidth="100.0" />
+      <StackPane fx:id="day2stack" minHeight="150.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
          <children>
             <VBox fx:id="day2tray" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="dropdown" stylesheets="@style/styles.css">
                <StackPane.margin>
@@ -184,7 +184,7 @@
             </GridPane>
          </children>
       </StackPane>
-      <StackPane fx:id="day1stack" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <StackPane fx:id="day1stack" minHeight="150.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
             <VBox fx:id="day1tray" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="dropdown" stylesheets="@style/styles.css">
                <StackPane.margin>
@@ -337,7 +337,7 @@
             </GridPane>
          </children>
       </StackPane>
-      <StackPane fx:id="day0stack" prefHeight="150.0" prefWidth="200.0">
+      <StackPane fx:id="day0stack" minHeight="150.0" prefHeight="150.0" prefWidth="200.0">
          <children>
             <GridPane styleClass="yCard" stylesheets="@style/styles.css">
                <columnConstraints>
@@ -383,7 +383,7 @@
             </GridPane>
          </children>
       </StackPane>
-      <StackPane fx:id="day3stack" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3">
+      <StackPane fx:id="day3stack" minHeight="150.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3">
          <children>
             <VBox fx:id="day3tray" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="dropdown" stylesheets="@style/styles.css">
                <StackPane.margin>
@@ -536,7 +536,7 @@
             </GridPane>
          </children>
       </StackPane>
-      <StackPane fx:id="day4stack" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4">
+      <StackPane fx:id="day4stack" minHeight="150.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4">
          <children>
             <VBox fx:id="day4tray" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="dropdown" stylesheets="@style/styles.css">
                <StackPane.margin>
@@ -689,7 +689,7 @@
             </GridPane>
          </children>
       </StackPane>
-      <StackPane fx:id="day5stack" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5">
+      <StackPane fx:id="day5stack" minHeight="150.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5">
          <children>
             <VBox fx:id="day5tray" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="dropdown" stylesheets="@style/styles.css">
                <StackPane.margin>
@@ -842,7 +842,7 @@
             </GridPane>
          </children>
       </StackPane>
-      <StackPane fx:id="day6stack" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6">
+      <StackPane fx:id="day6stack" minHeight="150.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6">
          <children>
             <VBox fx:id="day6tray" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="dropdown" stylesheets="@style/styles.css">
                <StackPane.margin>
