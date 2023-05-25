@@ -6,23 +6,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.*;
-import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
-import org.nd4j.common.io.ClassPathResource;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.deeplearning4j.nn.modelimport.keras.KerasModelImport;
 import com.google.gson.*;
 
 public class JWEL {
     private static int[] inputShape = {1, 60, 6, 1, 1};
     // public static double[][][][][] predictions;
-    public static INDArray predictions;
-    static MultiLayerNetwork JWEL;
     InputStream path;
     JWEL() {
         try {
-            path = App.class.getResourceAsStream("JWEL_simple.h5");//.getFile();//.getPath();
-            // String path = new ClassPathResource("JWEL_simple.h5").getFile().getPath();
-            JWEL = KerasModelImport.importKerasSequentialModelAndWeights(path, false);
+            path = App.class.getResourceAsStream("JWEL");
+
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -85,7 +78,7 @@ public class JWEL {
         return new String[] {today.toString(), agoThr.toString()};
     }
 
-    public static void refresh() {
+    public void refresh() {
         URL whatismyip;
         try {
             App.ONLINE = true;
@@ -94,11 +87,15 @@ public class JWEL {
             whatismyip.openStream()));
             String ip = in.readLine();
             System.out.println(ip);
-            String parsed = new Gson().toJson(getIPgeo(ip));
-            // System.out.println(getIPgeo(ip));
-            if (Preferences.autoLoc) {
-                Preferences.lat = Double.parseDouble(parsed);
-                Preferences.lon = Double.parseDouble(parsed);
+            JsonObject parsed = new Gson().fromJson(getIPgeo(ip), JsonObject.class);
+            String country = parsed.get("country").toString();
+            String state = parsed.get("regionName").toString();
+            String city = parsed.get("city").toString();
+            String lat = parsed.get("lat").toString();
+            String lon = parsed.get("lon").toString();
+            if (PreferenceHandler.autoLoc) {
+                PreferenceHandler.setLat(Double.parseDouble(lat));
+                PreferenceHandler.setLon(Double.parseDouble(lon));
             }
         } catch (UnknownHostException uhe) {
             //cant reach host / unresolved host

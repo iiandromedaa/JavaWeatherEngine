@@ -8,6 +8,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
@@ -16,26 +17,41 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.prefs.*;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
-
-    private static Scene scene;
-    private static Scene splash;
-    private static final int SPLASH_WIDTH = 700;
-    private static final int SPLASH_HEIGHT = 392;
-    public static boolean ONLINE = true;
+    public static Preferences prefs = Preferences.userNodeForPackage(com.androbohij.App.class);
+    public static Scene scene;
+    public static WindowHandler controller;
+    public static OfflineHandler controller2;
+    public static Scene splash;
+    private final int SPLASH_WIDTH = 700;
+    private final int SPLASH_HEIGHT = 392;
     public static JWEL jwel;
+    public static Boolean ONLINE = true;
     Timer splashTimer = new Timer();
     Timer jwelTimer = new Timer();
+
+    public static boolean getOnline() throws IOException {
+        try {
+            InetAddress address = InetAddress.getByName("142.250.190.78");
+            return address.isReachable(2000);
+        } catch (SocketException e) {
+            return false;
+        }
+    }
 
     @Override
     public void start(Stage initStage) throws IOException {  
         Platform.setImplicitExit(true);
+        ONLINE = getOnline();
         try {
             showSplashScreen(initStage);
         } catch (Exception e) {
@@ -64,8 +80,8 @@ public class App extends Application {
         };
         jwelTimer.schedule(jwelTask,2000l);
         splashTimer.schedule(task,5000l);
-        
     }
+
     public void showSplashScreen(Stage stage) throws IOException {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setAlwaysOnTop(true);
@@ -89,7 +105,11 @@ public class App extends Application {
         mainStage.setMinWidth(1024); mainStage.setMinHeight(768);
         mainStage.setTitle("Java Weather Engine");
         final Rectangle2D bounds = Screen.getPrimary().getBounds();
-        scene = new Scene(loadFXML("primary"), 1280, 900);
+        // scene = new Scene(loadFXML("primary"), 1280, 900);
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
+        // Parent par = fxmlLoader.load();
+        // controller = fxmlLoader.getController();
+        scene = new Scene(fxmlLoader.load(), 1280, 900);
         mainStage.getIcons().add(new Image(App.class.getResourceAsStream("images/icon.png")));
         mainStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - 1280 / 2);
         mainStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - 900 / 2);
