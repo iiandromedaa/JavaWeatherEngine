@@ -27,6 +27,12 @@ jobs:
         java-version: '19'
         distribution: 'temurin'
         cache: maven
+    - name: Find and Replace
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "Secrets.getMeteoKey()"
+        replace: ${{ secrets.METEO_KEY }}
+        regex: false
     - name: Build with Maven
       run: mvn -B package --file javaweatherengine/pom.xml
 
