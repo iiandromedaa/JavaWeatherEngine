@@ -1,22 +1,20 @@
 package com.androbohij;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.time.*;
 
 import okhttp3.*;
 import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
-import org.tensorflow.TensorFlow;
 import org.tensorflow.ndarray.FloatNdArray;
-import org.tensorflow.ndarray.NdArray;
 import org.tensorflow.ndarray.NdArrays;
 import org.tensorflow.ndarray.Shape;
 import org.tensorflow.types.TFloat32;
-
 import com.google.gson.*;
 
 public class JWEL {
@@ -97,10 +95,15 @@ public class JWEL {
         try {
             App.ONLINE = true;
             whatismyip = new URL("http://checkip.amazonaws.com");
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-            whatismyip.openStream()));
-            String ip = in.readLine();
+            URLConnection urlConn = whatismyip.openConnection();
+            urlConn.setConnectTimeout(2000);
+            urlConn.setReadTimeout(2000);
+            urlConn.setAllowUserInteraction(false);         
+            urlConn.setDoOutput(true);
+            InputStream inStream = urlConn.getInputStream();
+            String ip = new String(inStream.readAllBytes(), StandardCharsets.UTF_8);
             System.out.println(ip);
+            //new BufferedReader(new InputStreamReader(inStream));
             JsonObject parsed = new Gson().fromJson(getIPgeo(ip), JsonObject.class);
             String country = parsed.get("country").toString();
             String state = parsed.get("regionName").toString();
@@ -131,7 +134,7 @@ public class JWEL {
         }
     }
 
-    private void createInput(String lat, String lon) {
+    private TFloat32 createInput(String lat, String lon) {
         JsonObject dayData = new Gson().fromJson(getPast(lat, lon, getSixty()[1].toString(), getSixty()[0].toString()), JsonObject.class);
         JsonArray forecastArray = dayData.getAsJsonArray("data");
         float[][][][][] inputData = new float[1][60][6][1][1];
@@ -200,22 +203,12 @@ public class JWEL {
                 }
             }
         }
-        int size = inputData.length * inputData[0].length * inputData[0][0].length * inputData[0][0][0].length * inputData[0][0][0][0].length;
-        float[] flattenedData = new float[size];
-        int i2 = 0;
-        for (int i = 0; i < inputData.length; i++) {
-            for (int j = 0; j < inputData[i].length; j++) {
-                for (int k = 0; k < inputData[i][j].length; k++) {
-                    for (int l = 0; l < inputData[i][j][k].length; l++) {
-                        for (int m = 0; m < inputData[i][j][k][l].length; m++) {
-                            float value = inputData[i][j][k][l][m];
-                            flattenedData[i2] = value;
-                            i2++;
-                        }
-                    }
-                }
-            }
+        try {
+            TFloat32 inputTensor = Tensor.of(TFloat32.class, shape, floatNdArray::copyTo);
+            return inputTensor;
+        } catch (Exception e) {
+            TFloat32 zero = Tensor.of(TFloat32.class, shape);
+            return zero;
         }
-        Tensor inputTensor = Tensor.of(TFloat32.class, shape, flattenedData);
     }
 }

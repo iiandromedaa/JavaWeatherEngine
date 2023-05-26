@@ -81,7 +81,7 @@ public class App extends Application {
             }
         };
         jwelTimer.schedule(jwelTask,2000l);
-        splashTimer.schedule(task,5000l);
+        splashTimer.schedule(task,7000l);
     }
 
     public void showSplashScreen(Stage stage) throws IOException {
