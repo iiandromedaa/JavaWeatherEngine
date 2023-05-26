@@ -24,7 +24,7 @@ public class WindowHandler {
     //2 = about
     //3 = offline
     //4 = other
-    public BorderPane offlinePane;
+    public GridPane offlinePane;
 
     @FXML
     private Label versionLabel;
@@ -100,7 +100,10 @@ public class WindowHandler {
     }
 
     public void fresh() throws IOException {
-        App.jwel.refresh();
+        if (!App.ONLINE) {
+            display = 3;
+            goOffline(new ActionEvent());
+        }
         if (App.ONLINE) {
             display = 4;
             goHome(new ActionEvent());
@@ -128,10 +131,6 @@ public class WindowHandler {
             display = 3;
             goOffline(new ActionEvent());
         }
-        goOffline(new ActionEvent());
-        // goHome(new ActionEvent());
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("offline.fxml"));
-        // OfflineHandler controller = (OfflineHandler)loader.getController();
-        // controller.setMainTestController(this);
+        goHome(new ActionEvent());
     }
 }

@@ -8,7 +8,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
@@ -22,6 +21,8 @@ import java.net.SocketException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.prefs.*;
+
+import org.tensorflow.TensorFlow;
 
 /**
  * JavaFX App
@@ -50,6 +51,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage initStage) throws IOException {  
+        System.out.println(TensorFlow.version());
         Platform.setImplicitExit(true);
         ONLINE = getOnline();
         try {

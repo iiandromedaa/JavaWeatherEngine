@@ -12,7 +12,7 @@ public class PreferenceHandler {
         App.prefs.putDouble("lat", lat);
     }
     public static void setLon(double lon) {
-        App.prefs.putDouble("lon", lat);
+        App.prefs.putDouble("lon", lon);
     }
     public static void setAutoLoc(boolean autoLoc) {
         App.prefs.putBoolean("autoLoc", autoLoc);

@@ -63,7 +63,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Precipitation" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" text="Precip" textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -216,7 +216,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Precipitation" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" text="Precip." textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -225,7 +225,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="MSE" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -255,7 +255,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label styleClass="textBold" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -415,7 +415,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Precipitation" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" text="Precip." textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -568,7 +568,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Precipitation" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" text="Precip." textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -721,7 +721,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Precipitation" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" text="Precip." textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -730,7 +730,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="MSE" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -760,7 +760,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label styleClass="textBold" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -874,7 +874,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Precipitation" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" text="Precip." textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -883,7 +883,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="MSE" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -913,7 +913,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label styleClass="textBold" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

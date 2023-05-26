@@ -11,6 +11,7 @@ public class OfflineHandler {
 
     @FXML
     void goRefresh(ActionEvent event) throws IOException {
+        App.jwel.refresh();
         windo.fresh();
     }
 
