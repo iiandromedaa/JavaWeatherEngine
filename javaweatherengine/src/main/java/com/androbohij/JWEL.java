@@ -1,13 +1,14 @@
 package com.androbohij;
 
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.*;
-
 import okhttp3.*;
+
 import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
@@ -18,8 +19,9 @@ import org.tensorflow.types.TFloat32;
 import com.google.gson.*;
 
 public class JWEL {
-    private static int[] inputShape = {1, 60, 6, 1, 1};
     public static float[][][][][] predictions = new float[1][5][6][1][1];
+    public static float[] mean;
+    public static float[] std;
     public SavedModelBundle jwel;
     JWEL() {
         try {
@@ -50,11 +52,29 @@ public class JWEL {
         }
     }
 
+    public static String getFuture(String lat, String lon) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                .url("https://weatherapi-com.p.rapidapi.com/forecast.json?q="+lat+"%2C"+lon+"&days=3")
+                .get()
+                .addHeader("X-RapidAPI-Key", Secrets.getMeteoKey())
+                .addHeader("X-RapidAPI-Host", "weatherapi-com.p.rapidapi.com")
+                .build();
+
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        }
+        catch(Exception e) {
+            return e.toString();
+        }
+    }
+
     public static String getIPgeo(String ip){
         try {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-	        .url("http://ip-api.com/json/"+"75.72.246.132"+"?fields=status,message,country,regionName,city,lat,lon,query")
+	        .url("http://ip-api.com/json/"+ip+"?fields=status,message,country,regionName,city,lat,lon,query")
 	        // .get()
 	        // .addHeader("content-type", "application/octet-stream")
 	        .build();
@@ -69,15 +89,6 @@ public class JWEL {
         }
     }   
 
-    @Deprecated
-    private String[] getThirty() {
-        ZoneId z = ZoneId.systemDefault();
-        LocalDate today = LocalDate.now( z );
-        Period daysThr = Period.ofDays( 30 );
-        LocalDate agoThr = today.minus( daysThr );
-        return new String[] {today.toString(), agoThr.toString()};
-    }
-
     private String[] getSixty() {
         ZoneId z = ZoneId.systemDefault();
         LocalDate today = LocalDate.now( z );
@@ -88,6 +99,7 @@ public class JWEL {
 
     private void loadModel(String path) {
         jwel = SavedModelBundle.load(path, "serve");
+        // System.out.println(jwel.metaGraphDef().getSignatureDefMap().get("serving_default"));
     }
 
     public void refresh() {
@@ -96,8 +108,8 @@ public class JWEL {
             App.ONLINE = true;
             whatismyip = new URL("http://checkip.amazonaws.com");
             URLConnection urlConn = whatismyip.openConnection();
-            urlConn.setConnectTimeout(2000);
-            urlConn.setReadTimeout(2000);
+            urlConn.setConnectTimeout(3000);
+            urlConn.setReadTimeout(3000);
             urlConn.setAllowUserInteraction(false);         
             urlConn.setDoOutput(true);
             InputStream inStream = urlConn.getInputStream();
@@ -110,16 +122,24 @@ public class JWEL {
             String city = parsed.get("city").toString();
             String lat = parsed.get("lat").toString();
             String lon = parsed.get("lon").toString();
-            if (PreferenceHandler.autoLoc) {
+            if (PreferenceHandler.getAutoLoc()) {
                 PreferenceHandler.setLat(Double.parseDouble(lat));
                 PreferenceHandler.setLon(Double.parseDouble(lon));
+            } else {
+                lat = String.valueOf(PreferenceHandler.getLat());
+                lon = String.valueOf(PreferenceHandler.getLon());
             }
-            createInput(lat, lon);
-            predict();
+            System.out.println(lat);
+            System.out.println(lon);
+            predict(createInput(lat, lon));
             //get our 60 days
         } catch (UnknownHostException uhe) {
             //cant reach host / unresolved host
             System.out.println(uhe.toString());
+            System.out.println("Internet may not be available, please restart the application when your device is online again");
+            App.ONLINE = false;
+        } catch (SocketTimeoutException socke) {
+            System.out.println(socke.toString());
             System.out.println("Internet may not be available, please restart the application when your device is online again");
             App.ONLINE = false;
         } catch (Exception mue) {
@@ -128,9 +148,20 @@ public class JWEL {
         }
     }
 
-    private void predict() {
+    private void predict(TFloat32 inputTensor) {
         try (Session session = jwel.session()) {
-            
+            TFloat32 output = (TFloat32)session.runner()
+            .feed("serving_default_batch_norm_0_input", inputTensor)
+            .fetch("StatefulPartitionedCall").run().get(0);
+            long[] shapeArray = {1, 5, 6, 1, 1};
+            FloatNdArray results = NdArrays.ofFloats(Shape.of(shapeArray));
+            output.copyTo(results);
+            FloatNdArray denorm = denormalizeOutput(output, mean, std);
+            // System.out.println(results.getFloat(0, 0, 2, 0, 0));
+            System.out.println("predicted high tomorrow " + denorm.getFloat(0, 0, 2, 0, 0) + " c " + toF(denorm.getFloat(0, 0, 2, 0, 0)) + " f");
+            JsonObject predic = new Gson().fromJson(getFuture(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon())), JsonObject.class);
+            float fore = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(0).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
+            System.out.println("true high tomorrow " + fore + " c " + toF(fore) + " f");
         }
     }
 
@@ -204,11 +235,81 @@ public class JWEL {
             }
         }
         try {
-            TFloat32 inputTensor = Tensor.of(TFloat32.class, shape, floatNdArray::copyTo);
+            FloatNdArray normed = normalizeInput(floatNdArray);
+            System.out.println("high today " + floatNdArray.getFloat(0, 59, 2, 0, 0) + " c " + toF(floatNdArray.getFloat(0, 59, 2, 0, 0))+" f");
+            // System.out.println(normed.getFloat(0, 59, 0, 0, 0));
+            TFloat32 inputTensor = Tensor.of(TFloat32.class, shape, normed::copyTo);
             return inputTensor;
         } catch (Exception e) {
             TFloat32 zero = Tensor.of(TFloat32.class, shape);
             return zero;
         }
+    }
+
+    public static FloatNdArray normalizeInput(FloatNdArray inputData) {
+        mean = new float[(int) inputData.shape().get(2)];
+        std = new float[(int) inputData.shape().get(2)];
+    
+        long steps = inputData.shape().get(1);
+        long features = inputData.shape().get(2);
+    
+
+        for (long step = 0; step < steps; step++) {
+            for (long feature = 0; feature < features; feature++) {
+                mean[(int) feature] += inputData.getFloat(0, step, feature, 0, 0);
+            }
+        }
+        for (long feature = 0; feature < features; feature++) {
+            mean[(int) feature] /= steps;
+        }
+
+        for (long step = 0; step < steps; step++) {
+            for (long feature = 0; feature < features; feature++) {
+                float value = inputData.getFloat(0, step, feature, 0, 0);
+                std[(int) feature] += Math.pow(value - mean[(int) feature], 2);
+            }
+        }
+        for (long feature = 0; feature < features; feature++) {
+            std[(int) feature] = (float) Math.sqrt(std[(int) feature] / steps);
+        }
+
+        FloatNdArray normalizedData = NdArrays.ofFloats(inputData.shape());
+
+        for (long step = 0; step < steps; step++) {
+            for (long feature = 0; feature < features; feature++) {
+                float value = inputData.getFloat(0, step, feature, 0, 0);
+                float normalizedValue = (value - mean[(int) feature]) / std[(int) feature];
+                normalizedData.setFloat(normalizedValue, 0, step, feature, 0, 0);
+            }
+        }
+    
+        return normalizedData;
+    }
+
+    public static FloatNdArray denormalizeOutput(FloatNdArray outputData, float[] mean, float[] std) {
+
+        FloatNdArray denormalizedData = NdArrays.ofFloats(outputData.shape());
+    
+        // Denormalize the output data
+        long steps = outputData.shape().get(1);
+        long features = outputData.shape().get(2);
+    
+        for (long step = 0; step < steps; step++) {
+            for (long feature = 0; feature < features; feature++) {
+                float normalizedValue = outputData.getFloat(0, step, feature, 0, 0);
+                float denormalizedValue = (normalizedValue * std[(int) feature]) + mean[(int) feature];
+                denormalizedData.setFloat(denormalizedValue, 0, step, feature, 0, 0);
+            }
+        }
+    
+        return denormalizedData;
+    }
+
+    public static float toF(float cel) {
+        return (cel * 1.8f) + 32.0f;
+    }
+
+    public static float toC(float far) {
+        return (far - 32.0f) * (5.0f/9.0f);
     }
 }

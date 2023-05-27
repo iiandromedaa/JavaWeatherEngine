@@ -53,7 +53,7 @@ public class App extends Application {
     public void start(Stage initStage) throws IOException {  
         System.out.println(TensorFlow.version());
         Platform.setImplicitExit(true);
-        ONLINE = getOnline();
+        // ONLINE = getOnline();
         try {
             showSplashScreen(initStage);
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class App extends Application {
             }
         };
         jwelTimer.schedule(jwelTask,2000l);
-        splashTimer.schedule(task,7000l);
+        splashTimer.schedule(task,7500l);
     }
 
     public void showSplashScreen(Stage stage) throws IOException {
