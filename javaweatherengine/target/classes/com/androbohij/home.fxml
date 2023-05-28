@@ -63,7 +63,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Precip" textFill="WHITE" AnchorPane.leftAnchor="10.0">
+                              <Label styleClass="textBold" text="Precip." textFill="WHITE" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -84,7 +84,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day2pres" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -93,7 +93,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day2prcp" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -102,7 +102,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day2mse" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -237,7 +237,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day1pres" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -246,7 +246,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day1prcp" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -436,7 +436,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day3pres" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -445,7 +445,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day3prcp" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -454,7 +454,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day3mse" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -589,7 +589,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day4pres" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -598,7 +598,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day4prcp" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -607,7 +607,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day4mse" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -742,7 +742,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day5pres" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -751,7 +751,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day5prcp" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -895,7 +895,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day6pres" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -904,7 +904,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
+                              <Label fx:id="day6prcp" styleClass="textBold" text="Label" textFill="WHITE" AnchorPane.rightAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

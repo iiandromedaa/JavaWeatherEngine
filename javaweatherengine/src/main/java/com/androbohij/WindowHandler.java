@@ -25,6 +25,7 @@ public class WindowHandler {
     //3 = offline
     //4 = other
     public GridPane offlinePane;
+    public GridPane homePane;
 
     @FXML
     private Label versionLabel;
@@ -73,12 +74,12 @@ public class WindowHandler {
         }
         display = 0;
         borderpane.setCenter(null);
-        GridPane homePane;
         try {
             homePane = FXMLLoader.load(App.class.getResource("home.fxml"));
             homePane.setPrefSize(1180, 900);
             borderpane.setCenter(homePane);
             BorderPane.setAlignment(homePane, Pos.CENTER);
+            App.controller3.fresh();
         } catch (IOException e) {
             System.out.println("home not found???");
         }
@@ -113,11 +114,15 @@ public class WindowHandler {
     public void initialize() throws IOException {
         App.controller = this;
         FXMLLoader loader = new FXMLLoader(App.class.getResource("offline.fxml"));
-        // offlinePane = FXMLLoader.load(App.class.getResource("offline.fxml"));
+        FXMLLoader loader2 = new FXMLLoader(App.class.getResource("home.fxml"));
         offlinePane = loader.load();
+        homePane = loader2.load();
         App.controller2 = loader.getController();
+        App.controller3 = loader2.getController();
         System.out.println(App.controller2);
+        System.out.println(App.controller3);
         App.controller2.setMainTestController(App.controller);
+        App.controller3.setWindowHandler(App.controller);
         System.out.println(App.controller);
         display = 4;
         final Properties properties = new Properties();
@@ -127,10 +132,6 @@ public class WindowHandler {
             System.out.println(e.toString());
         }
         versionLabel.setText("JWE v" + properties.getProperty("version"));
-        if (!App.ONLINE) {
-            display = 3;
-            goOffline(new ActionEvent());
-        }
-        goHome(new ActionEvent());
+        fresh();
     }
 }

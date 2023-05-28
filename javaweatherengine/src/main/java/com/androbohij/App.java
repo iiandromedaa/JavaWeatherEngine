@@ -24,14 +24,12 @@ import java.util.prefs.*;
 
 import org.tensorflow.TensorFlow;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
     public static Preferences prefs = Preferences.userNodeForPackage(com.androbohij.App.class);
     public static Scene scene;
     public static WindowHandler controller;
     public static OfflineHandler controller2;
+    public static HomeHandler controller3;
     public static Scene splash;
     private final int SPLASH_WIDTH = 700;
     private final int SPLASH_HEIGHT = 392;
@@ -53,7 +51,6 @@ public class App extends Application {
     public void start(Stage initStage) throws IOException {  
         System.out.println(TensorFlow.version());
         Platform.setImplicitExit(true);
-        // ONLINE = getOnline();
         try {
             showSplashScreen(initStage);
         } catch (Exception e) {

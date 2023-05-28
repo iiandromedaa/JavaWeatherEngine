@@ -1,5 +1,8 @@
 package com.androbohij;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
@@ -15,6 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class HomeHandler {
+
+    WindowHandler windo;
 
     @FXML
     private StackPane day0stack;
@@ -33,6 +38,12 @@ public class HomeHandler {
 
     @FXML
     private Label day1day;
+
+    @FXML
+    private Label day1pres;
+
+    @FXML
+    private Label day1prcp;
 
     @FXML
     private StackPane day1stack;
@@ -57,6 +68,12 @@ public class HomeHandler {
     private Label day2day;
 
     @FXML
+    private Label day2pres;
+
+    @FXML
+    private Label day2prcp;
+
+    @FXML
     private StackPane day2stack;
 
     @FXML
@@ -77,6 +94,12 @@ public class HomeHandler {
 
     @FXML
     private Label day3day;
+
+    @FXML
+    private Label day3pres;
+    
+    @FXML
+    private Label day3prcp;
 
     @FXML
     private StackPane day3stack;
@@ -101,6 +124,12 @@ public class HomeHandler {
     private Label day4day;
 
     @FXML
+    private Label day4pres;
+    
+    @FXML
+    private Label day4prcp;
+
+    @FXML
     private StackPane day4stack;
 
     @FXML
@@ -123,6 +152,12 @@ public class HomeHandler {
     private Label day5day;
 
     @FXML
+    private Label day5pres;
+    
+    @FXML
+    private Label day5prcp;
+
+    @FXML
     private StackPane day5stack;
 
     @FXML
@@ -143,6 +178,12 @@ public class HomeHandler {
 
     @FXML
     private Label day6day;
+
+    @FXML
+    private Label day6pres;
+    
+    @FXML
+    private Label day6prcp;
 
     @FXML
     private StackPane day6stack;
@@ -464,12 +505,70 @@ public class HomeHandler {
     }
 
     public void initialize() {
+        fresh();
         day1trayActive = false;
         day2trayActive = false;
         day3trayActive = false;
         day4trayActive = false;
         day5trayActive = false;
         day6trayActive = false;
+    }
+
+    public void fresh() {
+        DecimalFormat df = new DecimalFormat("###.#");
+        df.setRoundingMode(RoundingMode.DOWN);
+
+        day1pres.setText(String.valueOf((df.format(JWEL.day1Pres)))+" mb");
+        day2pres.setText(String.valueOf((df.format(JWEL.day2Pres)))+" mb");
+        day3pres.setText(String.valueOf((df.format(JWEL.day3Pres)))+" mb");
+        day4pres.setText(String.valueOf((df.format(JWEL.day4Pres)))+" mb");
+        day5pres.setText(String.valueOf((df.format(JWEL.day5Pres)))+" mb");
+        day6pres.setText(String.valueOf((df.format(JWEL.day6Pres)))+" mb");
+
+        day1prcp.setText(String.valueOf((df.format(JWEL.day1Prcp)))+" mm");
+        day2prcp.setText(String.valueOf((df.format(JWEL.day2Prcp)))+" mm");
+        day3prcp.setText(String.valueOf((df.format(JWEL.day3Prcp)))+" mm");
+        day4prcp.setText(String.valueOf((df.format(JWEL.day4Prcp)))+" mm");
+        day5prcp.setText(String.valueOf((df.format(JWEL.day5Prcp)))+" mm");
+        day6prcp.setText(String.valueOf((df.format(JWEL.day6Prcp)))+" mm");
+
+        if (PreferenceHandler.getUnit()==0) {
+            day0temp.setText(String.valueOf(df.format(JWEL.day0Max))+" °C");
+            day1temp.setText(String.valueOf(df.format(JWEL.day1Max))+" °C");
+            day2temp.setText(String.valueOf(df.format(JWEL.day2Max))+" °C");
+            day3temp1.setText(String.valueOf(df.format(JWEL.day3Max))+" °C");
+            day4temp1.setText(String.valueOf(df.format(JWEL.day4Max))+" °C");
+            day5temp1.setText(String.valueOf(df.format(JWEL.day5Max))+" °C");
+            day6temp1.setText(String.valueOf(df.format(JWEL.day6Max))+" °C");
+
+            day0temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day0Max)))+" °F");
+            day1temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day1Max)))+" °F");
+            day2temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day2Max)))+" °F");
+            day3temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day3Max)))+" °F");
+            day4temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day4Max)))+" °F");
+            day5temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day5Max)))+" °F");
+            day6temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day6Max)))+" °F");
+        } else if (PreferenceHandler.getUnit() == 1) {
+            day0temp2.setText(String.valueOf(df.format(JWEL.day0Max))+" °C");
+            day1temp2.setText(String.valueOf(df.format(JWEL.day1Max))+" °C");
+            day2temp2.setText(String.valueOf(df.format(JWEL.day2Max))+" °C");
+            day3temp2.setText(String.valueOf(df.format(JWEL.day3Max))+" °C");
+            day4temp2.setText(String.valueOf(df.format(JWEL.day4Max))+" °C");
+            day5temp2.setText(String.valueOf(df.format(JWEL.day5Max))+" °C");
+            day6temp2.setText(String.valueOf(df.format(JWEL.day6Max))+" °C");
+
+            day0temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.day0Max)))+" °F");
+            day1temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.day1Max)))+" °F");
+            day2temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.day2Max)))+" °F");
+            day3temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day3Max)))+" °F");
+            day4temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day4Max)))+" °F");
+            day5temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day5Max)))+" °F");
+            day6temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day6Max)))+" °F");
+        }
+    }
+
+    public void setWindowHandler(WindowHandler windowHandler) {
+        this.windo = windowHandler;
     }
 
 }

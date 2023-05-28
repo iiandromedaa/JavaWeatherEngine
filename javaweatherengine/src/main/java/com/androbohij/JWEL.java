@@ -19,10 +19,18 @@ import org.tensorflow.types.TFloat32;
 import com.google.gson.*;
 
 public class JWEL {
-    public static float[][][][][] predictions = new float[1][5][6][1][1];
-    public static float[] mean;
-    public static float[] std;
+    public static float[] mean, std;
+
     public SavedModelBundle jwel;
+
+    public static float day0Max, day1Max, day2Max, day3Max, day4Max, day5Max, day6Max;
+
+    public static float day1Pres, day2Pres, day3Pres, day4Pres, day5Pres, day6Pres;
+
+    public static float day1Prcp, day2Prcp, day3Prcp, day4Prcp, day5Prcp, day6Prcp;
+
+    public static float trueDay2Max, trueDay3Max, trueDay4Max;
+
     JWEL() {
         try {
             loadModel("javaweatherengine/src/main/resources/com/androbohij/JWEL");
@@ -114,11 +122,14 @@ public class JWEL {
             urlConn.setDoOutput(true);
             InputStream inStream = urlConn.getInputStream();
             String ip = new String(inStream.readAllBytes(), StandardCharsets.UTF_8);
-            System.out.println(ip);
+            // System.out.println(ip);
             //new BufferedReader(new InputStreamReader(inStream));
             JsonObject parsed = new Gson().fromJson(getIPgeo(ip), JsonObject.class);
+            @SuppressWarnings("unused")
             String country = parsed.get("country").toString();
+            @SuppressWarnings("unused")
             String state = parsed.get("regionName").toString();
+            @SuppressWarnings("unused")
             String city = parsed.get("city").toString();
             String lat = parsed.get("lat").toString();
             String lon = parsed.get("lon").toString();
@@ -153,15 +164,20 @@ public class JWEL {
             TFloat32 output = (TFloat32)session.runner()
             .feed("serving_default_batch_norm_0_input", inputTensor)
             .fetch("StatefulPartitionedCall").run().get(0);
+
             long[] shapeArray = {1, 5, 6, 1, 1};
             FloatNdArray results = NdArrays.ofFloats(Shape.of(shapeArray));
             output.copyTo(results);
             FloatNdArray denorm = denormalizeOutput(output, mean, std);
-            // System.out.println(results.getFloat(0, 0, 2, 0, 0));
-            System.out.println("predicted high tomorrow " + denorm.getFloat(0, 0, 2, 0, 0) + " c " + toF(denorm.getFloat(0, 0, 2, 0, 0)) + " f");
+
+            day2Max = denorm.getFloat(0, 0, 2, 0, 0); day3Max = denorm.getFloat(0, 1, 2, 0, 0); day4Max = denorm.getFloat(0, 2, 2, 0, 0); day5Max = denorm.getFloat(0, 3, 2, 0, 0); day6Max = denorm.getFloat(0, 4, 2, 0, 0);
+            day2Prcp = denorm.getFloat(0, 0, 3, 0, 0); day3Prcp = denorm.getFloat(0, 1, 3, 0, 0); day4Prcp = denorm.getFloat(0, 2, 3, 0, 0); day5Prcp = denorm.getFloat(0, 3, 3, 0, 0); day6Prcp = denorm.getFloat(0, 4, 3, 0, 0);
+            day2Pres = denorm.getFloat(0, 0, 5, 0, 0); day3Pres = denorm.getFloat(0, 1, 5, 0, 0); day4Pres = denorm.getFloat(0, 2, 5, 0, 0); day5Pres = denorm.getFloat(0, 3, 5, 0, 0); day6Pres = denorm.getFloat(0, 4, 5, 0, 0);
+
             JsonObject predic = new Gson().fromJson(getFuture(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon())), JsonObject.class);
-            float fore = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(0).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
-            System.out.println("true high tomorrow " + fore + " c " + toF(fore) + " f");
+            trueDay2Max = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(0).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
+            trueDay3Max = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(1).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
+            trueDay4Max = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(2).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
         }
     }
 
@@ -234,10 +250,12 @@ public class JWEL {
                 }
             }
         }
+        day0Max = floatNdArray.getFloat(0, 58, 2, 0, 0);
+        day1Max = floatNdArray.getFloat(0, 59, 2, 0, 0);
+        day1Pres = floatNdArray.getFloat(0, 59, 5, 0, 0);
         try {
             FloatNdArray normed = normalizeInput(floatNdArray);
             System.out.println("high today " + floatNdArray.getFloat(0, 59, 2, 0, 0) + " c " + toF(floatNdArray.getFloat(0, 59, 2, 0, 0))+" f");
-            // System.out.println(normed.getFloat(0, 59, 0, 0, 0));
             TFloat32 inputTensor = Tensor.of(TFloat32.class, shape, normed::copyTo);
             return inputTensor;
         } catch (Exception e) {
