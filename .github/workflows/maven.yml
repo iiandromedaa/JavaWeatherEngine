@@ -34,8 +34,10 @@ jobs:
 #         replace: METEO_KEY
 #         include: JWEL.java
     - run: perl -pi -e 's/Secrets\.getMeteoKey\(\)/"$ENV{TOKEN}"/' javaweatherengine/src/main/java/com/androbohij/JWEL.java
+    - run: perl -pi -e 's/Secrets\.getVC\(\)/"$ENV{TOKEN2}"/' javaweatherengine/src/main/java/com/androbohij/JWEL.java
       env:
         TOKEN: ${{ secrets.METEO_KEY }}
+        TOKEN2: ${{ secrets.VC_KEY }}
     - name: Build with Maven
       run: mvn -B package --file javaweatherengine/pom.xml
 
