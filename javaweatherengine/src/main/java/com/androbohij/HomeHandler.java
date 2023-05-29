@@ -90,6 +90,9 @@ public class HomeHandler {
     private boolean day2trayActive;
 
     @FXML
+    private Label day2mse;
+
+    @FXML
     private ImageView day3arrow;
 
     @FXML
@@ -118,6 +121,9 @@ public class HomeHandler {
     private boolean day3trayActive;
 
     @FXML
+    private Label day3mse;
+
+    @FXML
     private ImageView day4arrow;
 
     @FXML
@@ -144,6 +150,9 @@ public class HomeHandler {
     @FXML
     private VBox day4tray;
     private boolean day4trayActive;
+
+    @FXML
+    private Label day4mse;
 
     @FXML
     private ImageView day5arrow;
@@ -521,6 +530,9 @@ public class HomeHandler {
         DecimalFormat df = new DecimalFormat("###.#");
         df.setRoundingMode(RoundingMode.DOWN);
 
+        day2mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[0] - JWEL.maxTemp[2]))));
+        day3mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[1] - JWEL.maxTemp[3]))));
+        day4mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[2] - JWEL.maxTemp[4]))));
 
         Locale locale = Locale.US;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
@@ -539,52 +551,52 @@ public class HomeHandler {
         day5day.setText(dateFormat2.format(JWEL.getNextFive()[4]));
         day6day.setText(dateFormat2.format(JWEL.getNextFive()[5]));
 
-        day1pres.setText(String.valueOf((df.format(JWEL.day1Pres)))+" mb");
-        day2pres.setText(String.valueOf((df.format(JWEL.day2Pres)))+" mb");
-        day3pres.setText(String.valueOf((df.format(JWEL.day3Pres)))+" mb");
-        day4pres.setText(String.valueOf((df.format(JWEL.day4Pres)))+" mb");
-        day5pres.setText(String.valueOf((df.format(JWEL.day5Pres)))+" mb");
-        day6pres.setText(String.valueOf((df.format(JWEL.day6Pres)))+" mb");
+        day1pres.setText(String.valueOf((df.format(JWEL.pres[0])))+" mb");
+        day2pres.setText(String.valueOf((df.format(JWEL.pres[1])))+" mb");
+        day3pres.setText(String.valueOf((df.format(JWEL.pres[2])))+" mb");
+        day4pres.setText(String.valueOf((df.format(JWEL.pres[3])))+" mb");
+        day5pres.setText(String.valueOf((df.format(JWEL.pres[4])))+" mb");
+        day6pres.setText(String.valueOf((df.format(JWEL.pres[5])))+" mb");
 
-        day1prcp.setText(String.valueOf((df.format(JWEL.day1Prcp)))+" mm");
-        day2prcp.setText(String.valueOf((df.format(JWEL.day2Prcp)))+" mm");
-        day3prcp.setText(String.valueOf((df.format(JWEL.day3Prcp)))+" mm");
-        day4prcp.setText(String.valueOf((df.format(JWEL.day4Prcp)))+" mm");
-        day5prcp.setText(String.valueOf((df.format(JWEL.day5Prcp)))+" mm");
-        day6prcp.setText(String.valueOf((df.format(JWEL.day6Prcp)))+" mm");
+        day1prcp.setText(String.valueOf((df.format(JWEL.prcp[0])))+" mm");
+        day2prcp.setText(String.valueOf((df.format(JWEL.prcp[1])))+" mm");
+        day3prcp.setText(String.valueOf((df.format(JWEL.prcp[2])))+" mm");
+        day4prcp.setText(String.valueOf((df.format(JWEL.prcp[3])))+" mm");
+        day5prcp.setText(String.valueOf((df.format(JWEL.prcp[4])))+" mm");
+        day6prcp.setText(String.valueOf((df.format(JWEL.prcp[5])))+" mm");
 
         if (PreferenceHandler.getUnit()==0) {
-            day0temp.setText(String.valueOf(df.format(JWEL.day0Max))+" °C");
-            day1temp.setText(String.valueOf(df.format(JWEL.day1Max))+" °C");
-            day2temp.setText(String.valueOf(df.format(JWEL.day2Max))+" °C");
-            day3temp1.setText(String.valueOf(df.format(JWEL.day3Max))+" °C");
-            day4temp1.setText(String.valueOf(df.format(JWEL.day4Max))+" °C");
-            day5temp1.setText(String.valueOf(df.format(JWEL.day5Max))+" °C");
-            day6temp1.setText(String.valueOf(df.format(JWEL.day6Max))+" °C");
+            day0temp.setText(String.valueOf(df.format(JWEL.maxTemp[0]))+" °C");
+            day1temp.setText(String.valueOf(df.format(JWEL.maxTemp[1]))+" °C");
+            day2temp.setText(String.valueOf(df.format(JWEL.maxTemp[2]))+" °C");
+            day3temp1.setText(String.valueOf(df.format(JWEL.maxTemp[3]))+" °C");
+            day4temp1.setText(String.valueOf(df.format(JWEL.maxTemp[4]))+" °C");
+            day5temp1.setText(String.valueOf(df.format(JWEL.maxTemp[5]))+" °C");
+            day6temp1.setText(String.valueOf(df.format(JWEL.maxTemp[6]))+" °C");
 
-            day0temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day0Max)))+" °F");
-            day1temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day1Max)))+" °F");
-            day2temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day2Max)))+" °F");
-            day3temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day3Max)))+" °F");
-            day4temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day4Max)))+" °F");
-            day5temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day5Max)))+" °F");
-            day6temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.day6Max)))+" °F");
+            day0temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[0])))+" °F");
+            day1temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[1])))+" °F");
+            day2temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[2])))+" °F");
+            day3temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[3])))+" °F");
+            day4temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[4])))+" °F");
+            day5temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[5])))+" °F");
+            day6temp2.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[6])))+" °F");
         } else if (PreferenceHandler.getUnit() == 1) {
-            day0temp2.setText(String.valueOf(df.format(JWEL.day0Max))+" °C");
-            day1temp2.setText(String.valueOf(df.format(JWEL.day1Max))+" °C");
-            day2temp2.setText(String.valueOf(df.format(JWEL.day2Max))+" °C");
-            day3temp2.setText(String.valueOf(df.format(JWEL.day3Max))+" °C");
-            day4temp2.setText(String.valueOf(df.format(JWEL.day4Max))+" °C");
-            day5temp2.setText(String.valueOf(df.format(JWEL.day5Max))+" °C");
-            day6temp2.setText(String.valueOf(df.format(JWEL.day6Max))+" °C");
+            day0temp2.setText(String.valueOf(df.format(JWEL.maxTemp[0]))+" °C");
+            day1temp2.setText(String.valueOf(df.format(JWEL.maxTemp[1]))+" °C");
+            day2temp2.setText(String.valueOf(df.format(JWEL.maxTemp[2]))+" °C");
+            day3temp2.setText(String.valueOf(df.format(JWEL.maxTemp[3]))+" °C");
+            day4temp2.setText(String.valueOf(df.format(JWEL.maxTemp[4]))+" °C");
+            day5temp2.setText(String.valueOf(df.format(JWEL.maxTemp[5]))+" °C");
+            day6temp2.setText(String.valueOf(df.format(JWEL.maxTemp[6]))+" °C");
 
-            day0temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.day0Max)))+" °F");
-            day1temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.day1Max)))+" °F");
-            day2temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.day2Max)))+" °F");
-            day3temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day3Max)))+" °F");
-            day4temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day4Max)))+" °F");
-            day5temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day5Max)))+" °F");
-            day6temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.day6Max)))+" °F");
+            day0temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[0])))+" °F");
+            day1temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[1])))+" °F");
+            day2temp.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[2])))+" °F");
+            day3temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[3])))+" °F");
+            day4temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[4])))+" °F");
+            day5temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[5])))+" °F");
+            day6temp1.setText(String.valueOf(df.format(JWEL.toF(JWEL.maxTemp[6])))+" °F");
         }
     }
 

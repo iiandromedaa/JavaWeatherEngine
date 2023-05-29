@@ -25,13 +25,15 @@ public class JWEL {
 
     public SavedModelBundle jwel;
 
-    public static float day0Max, day1Max, day2Max, day3Max, day4Max, day5Max, day6Max;
+    public static float[] maxTemp = {0,0,0,0,0,0,0};
 
-    public static float day1Pres, day2Pres, day3Pres, day4Pres, day5Pres, day6Pres;
+    public static float[] pres = {0,0,0,0,0,0};
 
-    public static float day1Prcp, day2Prcp, day3Prcp, day4Prcp, day5Prcp, day6Prcp;
+    public static float[] prcp = {0,0,0,0,0,0};
 
-    public static float trueDay2Max, trueDay3Max, trueDay4Max, trueDay5Max, trueDay6Max;
+    public static float[] trueMax = {0,0,0,0,0};
+
+    public static float[] mae = {0,0,0};
 
     JWEL() {
         try {
@@ -205,25 +207,34 @@ public class JWEL {
             output.copyTo(results);
             FloatNdArray denorm = denormalizeOutput(output, mean, std);
 
-            day2Max = denorm.getFloat(0, 0, 2, 0, 0); day3Max = denorm.getFloat(0, 1, 2, 0, 0); day4Max = denorm.getFloat(0, 2, 2, 0, 0); day5Max = denorm.getFloat(0, 3, 2, 0, 0); day6Max = denorm.getFloat(0, 4, 2, 0, 0);
-            day2Prcp = denorm.getFloat(0, 0, 3, 0, 0); day3Prcp = denorm.getFloat(0, 1, 3, 0, 0); day4Prcp = denorm.getFloat(0, 2, 3, 0, 0); day5Prcp = denorm.getFloat(0, 3, 3, 0, 0); day6Prcp = denorm.getFloat(0, 4, 3, 0, 0);
-            day2Pres = denorm.getFloat(0, 0, 5, 0, 0); day3Pres = denorm.getFloat(0, 1, 5, 0, 0); day4Pres = denorm.getFloat(0, 2, 5, 0, 0); day5Pres = denorm.getFloat(0, 3, 5, 0, 0); day6Pres = denorm.getFloat(0, 4, 5, 0, 0);
-            System.out.println(getPastVisualCrossing(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon()), getNextFive()[1].toString(), getNextFive()[5].toString()));
-            JsonObject dayData = new Gson().fromJson(getPastVisualCrossing(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon()), getNextFive()[1].toString(), getNextFive()[5].toString()), JsonObject.class);
-            JsonArray forecastArray = dayData.getAsJsonArray("days");
-            trueDay2Max = forecastArray.get(0).getAsJsonObject().get("tempmax").getAsFloat();
-            trueDay3Max = forecastArray.get(1).getAsJsonObject().get("tempmax").getAsFloat();
-            trueDay4Max = forecastArray.get(2).getAsJsonObject().get("tempmax").getAsFloat();
-            trueDay5Max = forecastArray.get(3).getAsJsonObject().get("tempmax").getAsFloat();
-            trueDay6Max = forecastArray.get(4).getAsJsonObject().get("tempmax").getAsFloat();
+            maxTemp[2] = denorm.getFloat(0, 0, 2, 0, 0); maxTemp[3] = denorm.getFloat(0, 1, 2, 0, 0); maxTemp[4] = denorm.getFloat(0, 2, 2, 0, 0); maxTemp[5] = denorm.getFloat(0, 3, 2, 0, 0); maxTemp[6] = denorm.getFloat(0, 4, 2, 0, 0);
+            prcp[1] = denorm.getFloat(0, 0, 3, 0, 0); prcp[2] = denorm.getFloat(0, 1, 3, 0, 0); prcp[3] = denorm.getFloat(0, 2, 3, 0, 0); prcp[4] = denorm.getFloat(0, 3, 3, 0, 0); prcp[5] = denorm.getFloat(0, 4, 3, 0, 0);
+            for (int i = 0; i < prcp.length; i++) 
+                if (prcp[i] < 0)
+                    prcp[i] = 0;
+            pres[1] = denorm.getFloat(0, 0, 5, 0, 0); pres[2] = denorm.getFloat(0, 1, 5, 0, 0); pres[3] = denorm.getFloat(0, 2, 5, 0, 0); pres[4] = denorm.getFloat(0, 3, 5, 0, 0); pres[5] = denorm.getFloat(0, 4, 5, 0, 0);
+            // System.out.println(getPastVisualCrossing(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon()), getNextFive()[1].toString(), getNextFive()[5].toString()));
+            // JsonObject dayData = new Gson().fromJson(getPastVisualCrossing(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon()), getNextFive()[1].toString(), getNextFive()[5].toString()), JsonObject.class);
+            // JsonArray forecastArray = dayData.getAsJsonArray("days");
+            // trueDay2Max = forecastArray.get(0).getAsJsonObject().get("tempmax").getAsFloat();
+            // trueDay3Max = forecastArray.get(1).getAsJsonObject().get("tempmax").getAsFloat();
+            // trueDay4Max = forecastArray.get(2).getAsJsonObject().get("tempmax").getAsFloat();
+            // trueDay5Max = forecastArray.get(3).getAsJsonObject().get("tempmax").getAsFloat();
+            // trueDay6Max = forecastArray.get(4).getAsJsonObject().get("tempmax").getAsFloat();
+            JsonObject predic = new Gson().fromJson(getFuture(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon())), JsonObject.class);
+            float fore = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(0).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
+            System.out.println("true high tomorrow " + fore + " c " + toF(fore) + " f");
+            trueMax[0] = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(0).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
+            trueMax[1] = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(1).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
+            trueMax[2] = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(2).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
         }
     }
 
     private TFloat32 createInput(String lat, String lon) {
-        // JsonObject dayData = new Gson().fromJson(getPast(lat, lon, getSixty()[1], getSixty()[0]), JsonObject.class);
-        // JsonArray forecastArray = dayData.getAsJsonArray("data");
-        JsonObject dayData = new Gson().fromJson(getPastVisualCrossing(lat, lon, getSixty()[1], getSixty()[0]), JsonObject.class);
-        JsonArray forecastArray = dayData.getAsJsonArray("days");
+        JsonObject dayData = new Gson().fromJson(getPast(lat, lon, getSixty()[1], getSixty()[0]), JsonObject.class);
+        JsonArray forecastArray = dayData.getAsJsonArray("data");
+        // JsonObject dayData = new Gson().fromJson(getPastVisualCrossing(lat, lon, getSixty()[1], getSixty()[0]), JsonObject.class);
+        // JsonArray forecastArray = dayData.getAsJsonArray("days");
         float[][][][][] inputData = new float[1][60][6][1][1];
         float prevTavg = 0.0f;
         float prevTmin = 0.0f;
@@ -233,38 +244,38 @@ public class JWEL {
         float prevPres = 0.0f;
         for (int i = 0; i < 60; i++) {
             JsonObject forecastDay = forecastArray.get(i).getAsJsonObject();
-            // if (forecastDay.has("tavg") && forecastDay.has("tmin") && forecastDay.has("tmax")
-            // && forecastDay.has("prcp") && forecastDay.has("snow") && forecastDay.has("pres")) {
-            if (forecastDay.has("temp") && forecastDay.has("tempmin") 
-            && forecastDay.has("tempmax") && forecastDay.has("precip") 
-            && forecastDay.has("snow") && forecastDay.has("pressure")) {
-                // JsonElement tavgElement = forecastDay.get("tavg");
-                JsonElement tavgElement = forecastDay.get("temp");
+            if (forecastDay.has("tavg") && forecastDay.has("tmin") && forecastDay.has("tmax")
+            && forecastDay.has("prcp") && forecastDay.has("snow") && forecastDay.has("pres")) {
+            // if (forecastDay.has("temp") && forecastDay.has("tempmin") 
+            // && forecastDay.has("tempmax") && forecastDay.has("precip") 
+            // && forecastDay.has("snow") && forecastDay.has("pressure")) {
+                JsonElement tavgElement = forecastDay.get("tavg");
+                // JsonElement tavgElement = forecastDay.get("temp");
                 float tavg = tavgElement.isJsonNull() ? prevTavg : tavgElement.getAsFloat();
                 prevTavg = tavg;
 
-                // JsonElement tminElement = forecastDay.get("tmin");
-                JsonElement tminElement = forecastDay.get("tempmin");
+                JsonElement tminElement = forecastDay.get("tmin");
+                // JsonElement tminElement = forecastDay.get("tempmin");
                 float tmin = tminElement.isJsonNull() ? prevTmin : tminElement.getAsFloat();
                 prevTmin = tmin;
 
-                // JsonElement tmaxElement = forecastDay.get("tmax");
-                JsonElement tmaxElement = forecastDay.get("tempmax");
+                JsonElement tmaxElement = forecastDay.get("tmax");
+                // JsonElement tmaxElement = forecastDay.get("tempmax");
                 float tmax = tmaxElement.isJsonNull() ? prevTmax : tmaxElement.getAsFloat();
                 prevTmax = tmax;
 
-                // JsonElement prcpElement = forecastDay.get("prcp");
-                JsonElement prcpElement = forecastDay.get("precip");
+                JsonElement prcpElement = forecastDay.get("prcp");
+                // JsonElement prcpElement = forecastDay.get("precip");
                 float prcp = prcpElement.isJsonNull() ? prevPrcp : prcpElement.getAsFloat();
                 prevPrcp = prcp;
 
-                // JsonElement snowElement = forecastDay.get("snow");
                 JsonElement snowElement = forecastDay.get("snow");
+                // JsonElement snowElement = forecastDay.get("snow");
                 float snow = snowElement.isJsonNull() ? prevSnow : snowElement.getAsFloat();
                 prevSnow = snow;
 
-                // JsonElement presElement = forecastDay.get("pres");
-                JsonElement presElement = forecastDay.get("pressure");
+                JsonElement presElement = forecastDay.get("pres");
+                // JsonElement presElement = forecastDay.get("pressure");
                 float pres = presElement.isJsonNull() ? prevPres : presElement.getAsFloat();
                 prevPres = pres;
 
@@ -298,9 +309,9 @@ public class JWEL {
                 }
             }
         }
-        day0Max = floatNdArray.getFloat(0, 58, 2, 0, 0);
-        day1Max = floatNdArray.getFloat(0, 59, 2, 0, 0);
-        day1Pres = floatNdArray.getFloat(0, 59, 5, 0, 0);
+        maxTemp[0] = floatNdArray.getFloat(0, 58, 2, 0, 0);
+        maxTemp[1] = floatNdArray.getFloat(0, 59, 2, 0, 0);
+        pres[0] = floatNdArray.getFloat(0, 59, 5, 0, 0);
         try {
             FloatNdArray normed = normalizeInput(floatNdArray);
             System.out.println("high today " + floatNdArray.getFloat(0, 59, 2, 0, 0) + " c " + toF(floatNdArray.getFloat(0, 59, 2, 0, 0))+" f");
