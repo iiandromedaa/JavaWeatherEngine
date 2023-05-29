@@ -7,6 +7,8 @@ import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.*;
+import java.util.Date;
+
 import okhttp3.*;
 
 import org.tensorflow.SavedModelBundle;
@@ -29,7 +31,7 @@ public class JWEL {
 
     public static float day1Prcp, day2Prcp, day3Prcp, day4Prcp, day5Prcp, day6Prcp;
 
-    public static float trueDay2Max, trueDay3Max, trueDay4Max;
+    public static float trueDay2Max, trueDay3Max, trueDay4Max, trueDay5Max, trueDay6Max;
 
     JWEL() {
         try {
@@ -39,7 +41,7 @@ public class JWEL {
         }
         refresh();
     }
-    public static String getPast(String lat, String lon, String startDate, String endDate){
+    public static String getPast(String lat, String lon, String startDate, String endDate) {
         try {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -53,6 +55,22 @@ public class JWEL {
             return response.body().string();
         }
         catch(java.net.SocketException socketException) {
+            return "sock";
+        }
+        catch(Exception unkException) {
+            return "fuck";
+        }
+    }
+
+    public static String getPastVisualCrossing(String lat, String lon, String startDate, String endDate) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+            .url("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"+lat+"%2C"+lon+"/"+startDate+"/"+endDate+"?unitGroup=metric&include=days&key="+Secrets.getVCkey()+"&contentType=json")
+            .build();
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch(java.net.SocketException socketException) {
             return "sock";
         }
         catch(Exception unkException) {
@@ -100,9 +118,29 @@ public class JWEL {
     private String[] getSixty() {
         ZoneId z = ZoneId.systemDefault();
         LocalDate today = LocalDate.now( z );
-        Period daysThr = Period.ofDays( 60 );
+        Period daysThr = Period.ofDays( 59 );
         LocalDate agoThr = today.minus( daysThr );
         return new String[] {today.toString(), agoThr.toString()};
+    }
+
+    public static Date[] getNextFive() {
+        ZoneId z = ZoneId.systemDefault();
+        LocalDate today = LocalDate.now( z );
+        return new Date[] {Date.from(today.atStartOfDay(z).toInstant()), Date.from(today.plus(Period.ofDays(1)).atStartOfDay(z).toInstant()), 
+            Date.from(today.plus(Period.ofDays(2)).atStartOfDay(z).toInstant()), 
+            Date.from(today.plus(Period.ofDays(3)).atStartOfDay(z).toInstant()), 
+            Date.from(today.plus(Period.ofDays(4)).atStartOfDay(z).toInstant()), 
+            Date.from(today.plus(Period.ofDays(5)).atStartOfDay(z).toInstant())};
+    }
+
+    public static String[] getNextFiveStr() {
+        ZoneId z = ZoneId.systemDefault();
+        LocalDate today = LocalDate.now( z );
+        return new String[] {today.toString(), today.plus(Period.ofDays(1)).toString(), 
+            today.plus(Period.ofDays(2)).toString(), 
+            today.plus(Period.ofDays(3)).toString(), 
+            today.plus(Period.ofDays(4)).toString(), 
+            today.plus(Period.ofDays(5)).toString()};
     }
 
     private void loadModel(String path) {
@@ -140,12 +178,10 @@ public class JWEL {
                 lat = String.valueOf(PreferenceHandler.getLat());
                 lon = String.valueOf(PreferenceHandler.getLon());
             }
-            System.out.println(lat);
-            System.out.println(lon);
+            System.out.println(PreferenceHandler.getLat());
+            System.out.println(PreferenceHandler.getLon());
             predict(createInput(lat, lon));
-            //get our 60 days
         } catch (UnknownHostException uhe) {
-            //cant reach host / unresolved host
             System.out.println(uhe.toString());
             System.out.println("Internet may not be available, please restart the application when your device is online again");
             App.ONLINE = false;
@@ -154,7 +190,6 @@ public class JWEL {
             System.out.println("Internet may not be available, please restart the application when your device is online again");
             App.ONLINE = false;
         } catch (Exception mue) {
-            //all other exceps
             System.out.println(mue.toString());
         }
     }
@@ -173,17 +208,22 @@ public class JWEL {
             day2Max = denorm.getFloat(0, 0, 2, 0, 0); day3Max = denorm.getFloat(0, 1, 2, 0, 0); day4Max = denorm.getFloat(0, 2, 2, 0, 0); day5Max = denorm.getFloat(0, 3, 2, 0, 0); day6Max = denorm.getFloat(0, 4, 2, 0, 0);
             day2Prcp = denorm.getFloat(0, 0, 3, 0, 0); day3Prcp = denorm.getFloat(0, 1, 3, 0, 0); day4Prcp = denorm.getFloat(0, 2, 3, 0, 0); day5Prcp = denorm.getFloat(0, 3, 3, 0, 0); day6Prcp = denorm.getFloat(0, 4, 3, 0, 0);
             day2Pres = denorm.getFloat(0, 0, 5, 0, 0); day3Pres = denorm.getFloat(0, 1, 5, 0, 0); day4Pres = denorm.getFloat(0, 2, 5, 0, 0); day5Pres = denorm.getFloat(0, 3, 5, 0, 0); day6Pres = denorm.getFloat(0, 4, 5, 0, 0);
-
-            JsonObject predic = new Gson().fromJson(getFuture(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon())), JsonObject.class);
-            trueDay2Max = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(0).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
-            trueDay3Max = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(1).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
-            trueDay4Max = predic.getAsJsonObject("forecast").getAsJsonArray("forecastday").get(2).getAsJsonObject().get("day").getAsJsonObject().get("maxtemp_c").getAsFloat();
+            System.out.println(getPastVisualCrossing(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon()), getNextFive()[1].toString(), getNextFive()[5].toString()));
+            JsonObject dayData = new Gson().fromJson(getPastVisualCrossing(String.valueOf(PreferenceHandler.getLat()), String.valueOf(PreferenceHandler.getLon()), getNextFive()[1].toString(), getNextFive()[5].toString()), JsonObject.class);
+            JsonArray forecastArray = dayData.getAsJsonArray("days");
+            trueDay2Max = forecastArray.get(0).getAsJsonObject().get("tempmax").getAsFloat();
+            trueDay3Max = forecastArray.get(1).getAsJsonObject().get("tempmax").getAsFloat();
+            trueDay4Max = forecastArray.get(2).getAsJsonObject().get("tempmax").getAsFloat();
+            trueDay5Max = forecastArray.get(3).getAsJsonObject().get("tempmax").getAsFloat();
+            trueDay6Max = forecastArray.get(4).getAsJsonObject().get("tempmax").getAsFloat();
         }
     }
 
     private TFloat32 createInput(String lat, String lon) {
-        JsonObject dayData = new Gson().fromJson(getPast(lat, lon, getSixty()[1].toString(), getSixty()[0].toString()), JsonObject.class);
-        JsonArray forecastArray = dayData.getAsJsonArray("data");
+        // JsonObject dayData = new Gson().fromJson(getPast(lat, lon, getSixty()[1], getSixty()[0]), JsonObject.class);
+        // JsonArray forecastArray = dayData.getAsJsonArray("data");
+        JsonObject dayData = new Gson().fromJson(getPastVisualCrossing(lat, lon, getSixty()[1], getSixty()[0]), JsonObject.class);
+        JsonArray forecastArray = dayData.getAsJsonArray("days");
         float[][][][][] inputData = new float[1][60][6][1][1];
         float prevTavg = 0.0f;
         float prevTmin = 0.0f;
@@ -193,33 +233,41 @@ public class JWEL {
         float prevPres = 0.0f;
         for (int i = 0; i < 60; i++) {
             JsonObject forecastDay = forecastArray.get(i).getAsJsonObject();
-            if (forecastDay.has("tavg") && forecastDay.has("tmin") && forecastDay.has("tmax")
-            && forecastDay.has("prcp") && forecastDay.has("snow") && forecastDay.has("pres")) {
-                JsonElement tavgElement = forecastDay.get("tavg");
+            // if (forecastDay.has("tavg") && forecastDay.has("tmin") && forecastDay.has("tmax")
+            // && forecastDay.has("prcp") && forecastDay.has("snow") && forecastDay.has("pres")) {
+            if (forecastDay.has("temp") && forecastDay.has("tempmin") 
+            && forecastDay.has("tempmax") && forecastDay.has("precip") 
+            && forecastDay.has("snow") && forecastDay.has("pressure")) {
+                // JsonElement tavgElement = forecastDay.get("tavg");
+                JsonElement tavgElement = forecastDay.get("temp");
                 float tavg = tavgElement.isJsonNull() ? prevTavg : tavgElement.getAsFloat();
                 prevTavg = tavg;
 
-                JsonElement tminElement = forecastDay.get("tmin");
+                // JsonElement tminElement = forecastDay.get("tmin");
+                JsonElement tminElement = forecastDay.get("tempmin");
                 float tmin = tminElement.isJsonNull() ? prevTmin : tminElement.getAsFloat();
                 prevTmin = tmin;
 
-                JsonElement tmaxElement = forecastDay.get("tmax");
+                // JsonElement tmaxElement = forecastDay.get("tmax");
+                JsonElement tmaxElement = forecastDay.get("tempmax");
                 float tmax = tmaxElement.isJsonNull() ? prevTmax : tmaxElement.getAsFloat();
                 prevTmax = tmax;
 
-                JsonElement prcpElement = forecastDay.get("prcp");
+                // JsonElement prcpElement = forecastDay.get("prcp");
+                JsonElement prcpElement = forecastDay.get("precip");
                 float prcp = prcpElement.isJsonNull() ? prevPrcp : prcpElement.getAsFloat();
                 prevPrcp = prcp;
 
+                // JsonElement snowElement = forecastDay.get("snow");
                 JsonElement snowElement = forecastDay.get("snow");
                 float snow = snowElement.isJsonNull() ? prevSnow : snowElement.getAsFloat();
                 prevSnow = snow;
 
-                JsonElement presElement = forecastDay.get("pres");
+                // JsonElement presElement = forecastDay.get("pres");
+                JsonElement presElement = forecastDay.get("pressure");
                 float pres = presElement.isJsonNull() ? prevPres : presElement.getAsFloat();
                 prevPres = pres;
 
-                // Populate the input data array
                 inputData[0][i][0][0][0] = tavg;
                 inputData[0][i][1][0][0] = tmin;
                 inputData[0][i][2][0][0] = tmax;
@@ -308,7 +356,6 @@ public class JWEL {
 
         FloatNdArray denormalizedData = NdArrays.ofFloats(outputData.shape());
     
-        // Denormalize the output data
         long steps = outputData.shape().get(1);
         long features = outputData.shape().get(2);
     

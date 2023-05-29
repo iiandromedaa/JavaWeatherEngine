@@ -35,6 +35,7 @@ public class App extends Application {
     private final int SPLASH_HEIGHT = 392;
     public static JWEL jwel;
     public static Boolean ONLINE = true;
+    
     Timer splashTimer = new Timer();
     Timer jwelTimer = new Timer();
 

@@ -1,7 +1,10 @@
 package com.androbohij;
 
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
@@ -517,6 +520,24 @@ public class HomeHandler {
     public void fresh() {
         DecimalFormat df = new DecimalFormat("###.#");
         df.setRoundingMode(RoundingMode.DOWN);
+
+
+        Locale locale = Locale.US;
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+        DateFormat dateFormat2 = new SimpleDateFormat("EEEE");
+        day1date.setText(dateFormat.format(JWEL.getNextFive()[0]));
+        day2date.setText(dateFormat.format(JWEL.getNextFive()[1]));
+        day3date.setText(dateFormat.format(JWEL.getNextFive()[2]));
+        day4date.setText(dateFormat.format(JWEL.getNextFive()[3]));
+        day5date.setText(dateFormat.format(JWEL.getNextFive()[4]));
+        day6date.setText(dateFormat.format(JWEL.getNextFive()[5]));
+        
+        day1day.setText(dateFormat2.format(JWEL.getNextFive()[0]));
+        day2day.setText(dateFormat2.format(JWEL.getNextFive()[1]));
+        day3day.setText(dateFormat2.format(JWEL.getNextFive()[2]));
+        day4day.setText(dateFormat2.format(JWEL.getNextFive()[3]));
+        day5day.setText(dateFormat2.format(JWEL.getNextFive()[4]));
+        day6day.setText(dateFormat2.format(JWEL.getNextFive()[5]));
 
         day1pres.setText(String.valueOf((df.format(JWEL.day1Pres)))+" mb");
         day2pres.setText(String.valueOf((df.format(JWEL.day2Pres)))+" mb");
