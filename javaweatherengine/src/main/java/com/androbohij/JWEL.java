@@ -196,8 +196,6 @@ public class JWEL {
             }
             System.out.println(PreferenceHandler.getLat());
             System.out.println(PreferenceHandler.getLon());
-            lat = "-23.533773";
-            lon = "-46.625290";
             predict(createInput(lat, lon));
         } catch (UnknownHostException uhe) {
             System.out.println(uhe.toString());
