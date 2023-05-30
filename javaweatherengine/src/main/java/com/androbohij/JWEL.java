@@ -1,13 +1,23 @@
 package com.androbohij;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.*;
 import java.util.Date;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import okhttp3.*;
 
@@ -37,12 +47,15 @@ public class JWEL {
 
     JWEL() {
         try {
-            loadModel("javaweatherengine/src/main/resources/com/androbohij/JWEL");
+            loadModel(tempZip().getAbsolutePath());
+            // loadModel("javaweatherengine/src/main/resources/com/androbohij/JWEL");
         } catch (Exception e) {
             System.out.println(e.toString());
+            e.printStackTrace(System.out);
         }
         refresh();
     }
+
     public static String getPast(String lat, String lon, String startDate, String endDate) {
         try {
             OkHttpClient client = new OkHttpClient();
@@ -387,5 +400,56 @@ public class JWEL {
 
     public static float toC(float far) {
         return (far - 32.0f) * (5.0f/9.0f);
+    }
+
+    public File tempZip() throws FileNotFoundException, IOException {
+        InputStream inputStream = JWEL.class.getClassLoader().getResourceAsStream("com/androbohij/JWEL.zip");
+        Path tempDirectory = Files.createTempDirectory("temp");
+        Path tempFilePath = tempDirectory.resolve("JWEL_temp.zip");
+        tempFilePath.toFile().deleteOnExit();
+        OutputStream outputStream = new FileOutputStream(tempFilePath.toFile());
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+
+        inputStream.close();
+        outputStream.close();
+
+        System.out.println("ZIP file copied to: " + tempFilePath);
+        String zipFilePath = tempFilePath.toString();
+
+        // Create a directory with the same name as the ZIP file (without the .zip extension)
+        File outputDirectory = new File(zipFilePath.substring(0, zipFilePath.lastIndexOf('.')));
+        outputDirectory.mkdirs();
+        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath))) {
+            // Iterate over each entry in the ZIP file
+            ZipEntry entry;
+            while ((entry = zipInputStream.getNextEntry()) != null) {
+                String entryName = entry.getName();
+                File entryFile = new File(outputDirectory, entryName);
+
+                if (entry.isDirectory()) {
+                    entryFile.mkdirs();
+                } else {
+                    // Create the necessary directories for the entry
+                    entryFile.getParentFile().mkdirs();
+    
+                    // Write the entry contents to a file
+                    try (OutputStream outputStreamZ = new FileOutputStream(entryFile)) {
+                        byte[] bufferZ = new byte[4096];
+                        int bytesReadZ;
+                        while ((bytesReadZ = zipInputStream.read(bufferZ)) != -1) {
+                            outputStreamZ.write(bufferZ, 0, bytesReadZ);
+                        }
+                    }
+                }
+            }
+        }
+        outputDirectory.deleteOnExit();
+        System.out.println("ZIP file extracted to: " + outputDirectory.getAbsolutePath());
+        File JWELfile = new File(outputDirectory, "JWEL");
+        return JWELfile;
     }
 }
