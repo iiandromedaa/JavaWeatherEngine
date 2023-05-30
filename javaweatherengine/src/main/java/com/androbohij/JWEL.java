@@ -21,6 +21,7 @@ import java.util.zip.ZipInputStream;
 
 import okhttp3.*;
 
+import org.apache.commons.io.FileUtils;
 import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
@@ -405,6 +406,7 @@ public class JWEL {
     public File tempZip() throws FileNotFoundException, IOException {
         InputStream inputStream = JWEL.class.getClassLoader().getResourceAsStream("com/androbohij/JWEL.zip");
         Path tempDirectory = Files.createTempDirectory("temp");
+        tempDirectory.toFile().deleteOnExit();
         Path tempFilePath = tempDirectory.resolve("JWEL_temp.zip");
         tempFilePath.toFile().deleteOnExit();
         OutputStream outputStream = new FileOutputStream(tempFilePath.toFile());
@@ -423,12 +425,14 @@ public class JWEL {
         // Create a directory with the same name as the ZIP file (without the .zip extension)
         File outputDirectory = new File(zipFilePath.substring(0, zipFilePath.lastIndexOf('.')));
         outputDirectory.mkdirs();
+        outputDirectory.deleteOnExit();
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath))) {
             // Iterate over each entry in the ZIP file
             ZipEntry entry;
             while ((entry = zipInputStream.getNextEntry()) != null) {
                 String entryName = entry.getName();
                 File entryFile = new File(outputDirectory, entryName);
+                entryFile.deleteOnExit();
 
                 if (entry.isDirectory()) {
                     entryFile.mkdirs();
@@ -447,9 +451,19 @@ public class JWEL {
                 }
             }
         }
-        outputDirectory.deleteOnExit();
         System.out.println("ZIP file extracted to: " + outputDirectory.getAbsolutePath());
         File JWELfile = new File(outputDirectory, "JWEL");
+        JWELfile.deleteOnExit();
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    FileUtils.deleteDirectory(tempDirectory.toFile());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
         return JWELfile;
     }
 }

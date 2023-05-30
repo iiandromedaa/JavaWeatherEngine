@@ -530,9 +530,9 @@ public class HomeHandler {
         DecimalFormat df = new DecimalFormat("###.#");
         df.setRoundingMode(RoundingMode.DOWN);
 
-        day2mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[0] - JWEL.maxTemp[2]))));
-        day3mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[1] - JWEL.maxTemp[3]))));
-        day4mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[2] - JWEL.maxTemp[4]))));
+        day2mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[0] - JWEL.maxTemp[2])))+" °C");
+        day3mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[1] - JWEL.maxTemp[3])))+" °C");
+        day4mse.setText(String.valueOf(df.format(Math.abs(JWEL.trueMax[2] - JWEL.maxTemp[4])))+" °C");
 
         Locale locale = Locale.US;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
