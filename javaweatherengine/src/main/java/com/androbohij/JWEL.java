@@ -196,6 +196,8 @@ public class JWEL {
             }
             System.out.println(PreferenceHandler.getLat());
             System.out.println(PreferenceHandler.getLon());
+            lat = "-23.533773";
+            lon = "-46.625290";
             predict(createInput(lat, lon));
         } catch (UnknownHostException uhe) {
             System.out.println(uhe.toString());
@@ -361,7 +363,7 @@ public class JWEL {
             }
         }
         for (long feature = 0; feature < features; feature++) {
-            std[(int) feature] = (float) Math.sqrt(std[(int) feature] / steps);
+            std[(int) feature] = (float) Math.sqrt(std[(int) feature] / steps + 0.0000001);
         }
 
         FloatNdArray normalizedData = NdArrays.ofFloats(inputData.shape());
